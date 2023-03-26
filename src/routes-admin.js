@@ -1,19 +1,17 @@
 
 // Soft UI Dashboard React layouts
-import Dashboard from "layouts/dashboard";
-import Tables from "layouts/tables";
-import Billing from "layouts/billing";
+import Dashboard from "layouts/dashboardAdmin";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import Request from "layouts/request";
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
-import Office from "examples/Icons/Office";
 import Document from "examples/Icons/Document";
 import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
-import CreditCard from "examples/Icons/CreditCard";
+import ApproveCargo from "layouts/approveCargo";
 
 const routes = [
   {
@@ -27,20 +25,20 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Хүснэгтүүд",
-    key: "tables",
-    route: "/tables",
-    icon: <Office size="12px" />,
-    component: <Tables />,
+    name: "Карго хүсэлтүүд",
+    key: "request",
+    route: "/request",
+    icon: <Shop size="12px" />,
+    component: <Request />,
     noCollapse: true,
   },
   {
     type: "collapse",
-    name: "Төлбөр",
-    key: "billing",
-    route: "/billing",
-    icon: <CreditCard size="12px" />,
-    component: <Billing />,
+    name: "Каргонууд",
+    key: "approved",
+    route: "/approved",
+    icon: <Shop size="12px" />,
+    component: <ApproveCargo />,
     noCollapse: true,
   },
   { type: "title", title: "Account Pages", key: "account-pages" },

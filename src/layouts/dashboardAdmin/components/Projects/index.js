@@ -1,17 +1,3 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 
 import { useState } from "react";
 
@@ -29,7 +15,7 @@ import SoftTypography from "components/SoftTypography";
 import Table from "examples/Tables/Table";
 
 // Data
-import data from "layouts/rtl/components/Projects/data";
+import data from "layouts/dashboard/components/Projects/data";
 
 function Projects() {
   const { columns, rows } = data();
@@ -48,14 +34,14 @@ function Projects() {
       }}
       transformOrigin={{
         vertical: "top",
-        horizontal: "left",
+        horizontal: "right",
       }}
       open={Boolean(menu)}
       onClose={closeMenu}
     >
-      <MenuItem onClick={closeMenu}>عمل</MenuItem>
-      <MenuItem onClick={closeMenu}>عمل اخر</MenuItem>
-      <MenuItem onClick={closeMenu}>شيء آخر هنا</MenuItem>
+      <MenuItem onClick={closeMenu}>Action</MenuItem>
+      <MenuItem onClick={closeMenu}>Another action</MenuItem>
+      <MenuItem onClick={closeMenu}>Something else</MenuItem>
     </Menu>
   );
 
@@ -64,7 +50,7 @@ function Projects() {
       <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
         <SoftBox>
           <SoftTypography variant="h6" gutterBottom>
-            المشاريع
+            Projects
           </SoftTypography>
           <SoftBox display="flex" alignItems="center" lineHeight={0}>
             <Icon
@@ -77,7 +63,7 @@ function Projects() {
               done
             </Icon>
             <SoftTypography variant="button" fontWeight="regular" color="text">
-              &nbsp;<strong>30 انتهى</strong> هذا الشهر
+              &nbsp;<strong>30 done</strong> this month
             </SoftTypography>
           </SoftBox>
         </SoftBox>

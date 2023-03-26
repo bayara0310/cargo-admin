@@ -52,11 +52,11 @@ function SidenavCard() {
         </SoftBox>
         <SoftBox lineHeight={1}>
           <SoftTypography variant="h6" color="white">
-            Need help?
+            Тусламж хэрэгтэй юу?
           </SoftTypography>
           <SoftBox mb={1.825} mt={-1}>
             <SoftTypography variant="caption" color="white" fontWeight="medium">
-              Please check our docs
+              Таньд туслах товч
             </SoftTypography>
           </SoftBox>
           <SoftButton

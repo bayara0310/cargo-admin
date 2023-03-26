@@ -1,18 +1,4 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.0
-=========================================================
 
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-import { useEffect } from "react";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -33,30 +19,40 @@ import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
 // Soft UI Dashboard React base styles
 import typography from "assets/theme/base/typography";
 
-// RTL layout components
-import BuildByDevelopers from "layouts/rtl/components/BuildByDevelopers";
-import WorkWithTheRockets from "layouts/rtl/components/WorkWithTheRockets";
-import Projects from "layouts/rtl/components/Projects";
-import OrderOverview from "layouts/rtl/components/OrderOverview";
+// Dashboard layout components
+import BuildByDevelopers from "layouts/dashboard/components/BuildByDevelopers";
+import WorkWithTheRockets from "layouts/dashboard/components/WorkWithTheRockets";
+import Projects from "layouts/dashboard/components/Projects";
+import OrderOverview from "layouts/dashboard/components/OrderOverview";
 
 // Data
-import reportsBarChartData from "layouts/rtl/data/reportsBarChartData";
-import gradientLineChartData from "layouts/rtl/data/gradientLineChartData";
+import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
+import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { cargostatus } from "url/url";
 
-// Soft UI Dashboard React contexts
-import { useSoftUIController, setDirection } from "context";
-
-function RTL() {
-  const [, dispatch] = useSoftUIController();
+function Dashboard() {
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
+  const [approve, setAprove] = useState()
+  const [requiested, setReq] = useState()
 
-  // Changing the direction to rtl
   useEffect(() => {
-    setDirection(dispatch, "rtl");
-
-    return () => setDirection(dispatch, "ltr");
+    loadProfile();
   }, []);
+
+  const loadProfile = async () => {
+    try{
+      const res = await axios.post(cargostatus, {cargo_status: "APPROVED"});
+      const ress = await axios.post(cargostatus, {cargo_status: "REQUIESTED"});
+      setAprove(res.data.data.length);
+      setReq(ress.data.data.length);
+
+    }catch(err){
+      console.log(err)
+    }
+  }
 
   return (
     <DashboardLayout>
@@ -66,15 +62,15 @@ function RTL() {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "أموال اليوم" }}
-                count="$53,000"
+                title={{ text: "Бүх карго" }}
+                count={approve}
                 percentage={{ color: "success", text: "+55%" }}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "مستخدمو اليوم" }}
+                title={{ text: "Нийт хэрэглэгч" }}
                 count="2,300"
                 percentage={{ color: "success", text: "+3%" }}
                 icon={{ color: "info", component: "public" }}
@@ -82,7 +78,7 @@ function RTL() {
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "عملاء جدد" }}
+                title={{ text: "Өнөөдрийн бүртгэл" }}
                 count="+3,462"
                 percentage={{ color: "error", text: "-2%" }}
                 icon={{ color: "info", component: "emoji_events" }}
@@ -90,8 +86,8 @@ function RTL() {
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "مبيعات" }}
-                count="$103,430"
+                title={{ text: "Карго хүсэлтүүд" }}
+                count={requiested}
                 percentage={{ color: "success", text: "+5%" }}
                 icon={{
                   color: "info",
@@ -103,22 +99,12 @@ function RTL() {
         </SoftBox>
         <SoftBox mb={3}>
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={7}>
-              <BuildByDevelopers />
-            </Grid>
-            <Grid item xs={12} lg={5}>
-              <WorkWithTheRockets />
-            </Grid>
-          </Grid>
-        </SoftBox>
-        <SoftBox mb={3}>
-          <Grid container spacing={3}>
             <Grid item xs={12} lg={5}>
               <ReportsBarChart
-                title="المستخدمين النشطين"
+                title="Нийт захиалга"
                 description={
                   <>
-                    (<strong>+23%</strong>) من الأسبوع الماضي
+                    (<strong>+23%</strong>) Сүүлийн 7 хоногт
                   </>
                 }
                 chart={chart}
@@ -127,16 +113,16 @@ function RTL() {
             </Grid>
             <Grid item xs={12} lg={7}>
               <GradientLineChart
-                title="نظرة عامة على المبيعات"
+                title="Нийт хэрэглэгч"
                 description={
                   <SoftBox display="flex" alignItems="center">
                     <SoftBox fontSize={size.lg} color="success" mb={0.3} mr={0.5} lineHeight={0}>
                       <Icon className="font-bold">arrow_upward</Icon>
                     </SoftBox>
                     <SoftTypography variant="button" color="text" fontWeight="medium">
-                      4% أكثر في عام{" "}
+                      4% more{" "}
                       <SoftTypography variant="button" color="text" fontWeight="regular">
-                        2021
+                        in 2021
                       </SoftTypography>
                     </SoftTypography>
                   </SoftBox>
@@ -161,4 +147,4 @@ function RTL() {
   );
 }
 
-export default RTL;
+export default Dashboard;

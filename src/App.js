@@ -1,17 +1,4 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.0
-=========================================================
 
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 
 import { useState, useEffect, useMemo } from "react";
 
@@ -41,6 +28,7 @@ import createCache from "@emotion/cache";
 
 // Soft UI Dashboard React routes
 import routes from "routes";
+import routesAdmin from "routes-admin";
 
 // Soft UI Dashboard React contexts
 import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -49,6 +37,7 @@ import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "contex
 import brand from "assets/images/logo-ct.png";
 
 export default function App() {
+  const [admin, setAdmin] = useState(2)
   const [controller, dispatch] = useSoftUIController();
   const { miniSidenav, direction, layout, openConfigurator, sidenavColor } = controller;
   const [onMouseEnter, setOnMouseEnter] = useState(false);
@@ -161,6 +150,23 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       {layout === "dashboard" && (
+        // admin route test
+       <>
+       {
+        admin === 1 ?
+        <>
+          <Sidenav
+            color={sidenavColor}
+            brand={brand}
+            brandName="Soft UI Dashboard"
+            routes={routesAdmin}
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}
+          />
+          <Configurator />
+          {configsButton}
+        </>
+      :
         <>
           <Sidenav
             color={sidenavColor}
@@ -173,12 +179,22 @@ export default function App() {
           <Configurator />
           {configsButton}
         </>
+       }
+       </>
       )}
       {layout === "vr" && <Configurator />}
-      <Routes>
-        {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
-      </Routes>
+      {
+        admin === 1 ?
+        <Routes>
+          {getRoutes(routesAdmin)}
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+        </Routes>
+        :
+        <Routes>
+          {getRoutes(routes)}
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+        </Routes>
+      }
     </ThemeProvider>
   );
 }
