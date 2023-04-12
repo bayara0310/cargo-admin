@@ -209,7 +209,7 @@ function Configurator() {
               variant="gradient"
               fullWidth
             >
-              free download
+              free 
             </SoftButton>
           </SoftBox>
           <SoftButton

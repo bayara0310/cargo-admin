@@ -1,0 +1,16 @@
+export const BARAA = {
+    ALL: "ALL",
+    REGISTERED: "REGISTERED",
+    APPROVED: "APPROVED",
+    RECEIVED: "RECEIVED",
+    CAME: "CAME",
+    CONFIRM: "CONFIRM",
+}
+
+export const CARGO = {
+    ALL: "ALL",
+    REQUIESTED: "REQUIESTED",
+    APPROVED: "APPROVED",
+    CAME: "CAME",
+    CONFIRM: "CONFIRM",
+}

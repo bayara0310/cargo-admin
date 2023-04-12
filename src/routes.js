@@ -1,19 +1,15 @@
 
 // Soft UI Dashboard React layouts
-import Dashboard from "layouts/dashboard";
-import Tables from "layouts/tables";
-import Billing from "layouts/billing";
-import Profile from "layouts/profile";
+import Dashboard from "layouts/Cargo-Admin/dashboard";
+import Profile from "layouts/Cargo-Admin/profile";
 import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
 import Office from "examples/Icons/Office";
 import Document from "examples/Icons/Document";
-import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
-import CreditCard from "examples/Icons/CreditCard";
+import Orders from "layouts/Cargo-Admin/orders";
 
 const routes = [
   {
@@ -27,26 +23,17 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Хүснэгтүүд",
-    key: "tables",
-    route: "/tables",
+    name: "Захиалгууд",
+    key: "orders",
+    route: "/orders",
     icon: <Office size="12px" />,
-    component: <Tables />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Төлбөр",
-    key: "billing",
-    route: "/billing",
-    icon: <CreditCard size="12px" />,
-    component: <Billing />,
+    component: <Orders />,
     noCollapse: true,
   },
   { type: "title", title: "Account Pages", key: "account-pages" },
   {
     type: "collapse",
-    name: "Profile",
+    name: "Миний хуудас",
     key: "profile",
     route: "/profile",
     icon: <CustomerSupport size="12px" />,
@@ -55,20 +42,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Sign In",
+    name: "Нэвтрэх хуудас",
     key: "sign-in",
     route: "/authentication/sign-in",
     icon: <Document size="12px" />,
     component: <SignIn />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    route: "/authentication/sign-up",
-    icon: <SpaceShip size="12px" />,
-    component: <SignUp />,
     noCollapse: true,
   },
 ];

@@ -3,15 +3,14 @@
 import Dashboard from "layouts/dashboardAdmin";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
 import Request from "layouts/request";
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
 import Document from "examples/Icons/Document";
-import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import ApproveCargo from "layouts/approveCargo";
+import Activate from "layouts/authentication/activate";
 
 const routes = [
   {
@@ -44,7 +43,7 @@ const routes = [
   { type: "title", title: "Account Pages", key: "account-pages" },
   {
     type: "collapse",
-    name: "Profile",
+    name: "Профайл",
     key: "profile",
     route: "/profile",
     icon: <CustomerSupport size="12px" />,
@@ -53,7 +52,7 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Sign In",
+    name: "Нэвтрэх хуудас",
     key: "sign-in",
     route: "/authentication/sign-in",
     icon: <Document size="12px" />,
@@ -62,11 +61,12 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    route: "/authentication/sign-up",
-    icon: <SpaceShip size="12px" />,
-    component: <SignUp />,
+    name: "Нэвтрэх хуудас",
+    key: "activate",
+    path: "/authentication/activate/:id",
+    route: "/authentication/activate/:id",
+    icon: <Document size="12px" />,
+    component: <Activate />,
     noCollapse: true,
   },
 ];

@@ -18,20 +18,26 @@ import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
 
 // Soft UI Dashboard React base styles
 import typography from "assets/theme/base/typography";
-
-// Dashboard layout components
-import BuildByDevelopers from "layouts/dashboard/components/BuildByDevelopers";
-import WorkWithTheRockets from "layouts/dashboard/components/WorkWithTheRockets";
-import Projects from "layouts/dashboard/components/Projects";
-import OrderOverview from "layouts/dashboard/components/OrderOverview";
+import Projects from "layouts/Cargo-Admin/dashboard/components/Projects";
+import OrderOverview from "layouts/Cargo-Admin/dashboard/components/OrderOverview";
 
 // Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
+import reportsBarChartData from "layouts/Cargo-Admin/dashboard/data/reportsBarChartData";
+import gradientLineChartData from "layouts/Cargo-Admin/dashboard/data/gradientLineChartData";
+import { useEffect } from "react";
+import { isAuth } from "context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+  const navigate = useNavigate();
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
+
+  useEffect(() => {
+    if(!isAuth()){
+      navigate("/authentication/sign-in")
+    }
+  }, []);
 
   return (
     <DashboardLayout>

@@ -11,8 +11,9 @@ import { cargoone } from 'url/url';
 import { useEffect, useState } from 'react';
 import { cargostatusupdate } from 'url/url';
 import { Spinner, useToast } from '@chakra-ui/react';
+import { adminadd } from 'url/url';
 
-export default function MoreModal(id) {
+export default function ApproveModal(id) {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false)
   const toast = useToast();
@@ -23,7 +24,6 @@ export default function MoreModal(id) {
   }, []);
 
     const loadProfile = async () => {
-        console.log("ahha")
         try{
             const res = await axios.get(cargoone + `${id.id}`);
             setCargos(res.data)
@@ -33,15 +33,19 @@ export default function MoreModal(id) {
     }
 
     const SubmitData = async () => {
+        const email = cargos.email;
+        const password = cargos.phone_number;
+        const cargoid = cargos._id;
+        const username = cargos.cargo_name;
       setLoading(true);
       try{
-          const res = await axios.post(cargostatusupdate + `${id.id}`, {cargo_status: "APPROVED"});
-          console.log(res.data);
+          const res = await axios.post(adminadd, {email: email, password: password, cargoid: cargoid, username: username});
+
           if(res.status === 200){
             setLoading(false)
             handleClose();
             toast({
-              title: `Амжилттай баталгаажлаа`,
+              title: `Хэрэглэгчийн и-мейл хаягруу баталгаажуулах мейл илгээлээ.`,
               position: 'top',
               isClosable: true,
               status: 'success',
@@ -122,12 +126,12 @@ export default function MoreModal(id) {
         </DialogContent>
         <DialogActions className='mt-4'>
           <div className='text-sm mr-4 cursor-pointer hover:text-gray-500' onClick={handleClose}>Гарах</div>
-          <div className='text-sm mr-4 cursor-pointer bg-green-600 hover:bg-green-700 rounded py-2 px-4 text-white' onClick={SubmitData}>
+          <div className='text-sm mr-4 cursor-pointer bg-blue-600 hover:bg-blue-700 rounded py-2 px-4 text-white' onClick={SubmitData}>
             {
               loading &&
               <Spinner className='mr-2'/>
             }
-            Баталгаажуулах</div>
+            Админ эрх үүсгэх</div>
         </DialogActions>
       </Dialog>
     </div>

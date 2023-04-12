@@ -13,17 +13,6 @@ import Footer from "examples/Footer";
 
 // Data
 import projectsTableData from "layouts/request/data/projectsTableData";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from '@chakra-ui/react'
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { cargostatus } from "url/url";
@@ -91,7 +80,7 @@ const loadProfile = async () => {
                               <tr className="border-b dark:border-neutral-500" key={index}>
                                 <td className="whitespace-nowrap px-6 py-4">
                                   <div className="flex items-center">
-                                    <Avatar /> 
+                                    <Avatar src={item.logo} className="border border-gray-300"/> 
                                     <div className="ml-2">
                                       <h1 className="font-semibold">{item.cargo_name}</h1>
                                       <p className="">{item.phone_number}</p>

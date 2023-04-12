@@ -1,19 +1,20 @@
 /* eslint-disable react/prop-types */
 // @mui material components
 import Icon from "@mui/material/Icon";
+
+// Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftProgress from "components/SoftProgress";
 
 // Images
-import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
 import logoInvesion from "assets/images/small-logos/logo-invision.svg";
-import logoJira from "assets/images/small-logos/logo-jira.svg";
-import logoSlack from "assets/images/small-logos/logo-slack.svg";
-import logoWebDev from "assets/images/small-logos/logo-webdev.svg";
-import logoXD from "assets/images/small-logos/logo-xd.svg";
+import { useCallback, useEffect, useState } from "react";
+import axios from "axios";
+import { cargoall } from "url/url";
 
 function Completion({ value, color }) {
+
   return (
     <SoftBox display="flex" alignItems="center">
       <SoftTypography variant="caption" color="text" fontWeight="medium">
@@ -32,6 +33,23 @@ const action = (
   </Icon>
 );
 
+// const [my, setMy] = useState([])
+
+// useEffect(() => {
+//   fetchDataa();
+// },[]);
+
+// const fetchDataa = useCallback(async () => {
+//   try{
+//     const res= await axios.get(cargoall)
+//     setMy(res.data)
+//     console.log(res.data)
+
+//   }catch(err){
+//     console.log(err)
+//   }
+// });
+
 const projectsTableData = {
   columns: [
     { name: "project", align: "left" },
@@ -40,23 +58,7 @@ const projectsTableData = {
     { name: "completion", align: "center" },
     { name: "action", align: "center" },
   ],
-
   rows: [
-    {
-      project: [logoSpotify, "Spotift"],
-      budget: (
-        <SoftTypography variant="button" color="text" fontWeight="medium">
-          $2,500
-        </SoftTypography>
-      ),
-      status: (
-        <SoftTypography variant="caption" color="text" fontWeight="medium">
-          working
-        </SoftTypography>
-      ),
-      completion: <Completion value={60} color="info" />,
-      action,
-    },
     {
       project: [logoInvesion, "Invesion"],
       budget: (

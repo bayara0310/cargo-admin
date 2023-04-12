@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 
 // react-router components
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -33,16 +33,30 @@ import routesAdmin from "routes-admin";
 // Soft UI Dashboard React contexts
 import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
-// Images
 import brand from "assets/images/logo-ct.png";
+import axios from "axios";
+import { isAuth } from "context/AuthContext";
 
 export default function App() {
-  const [admin, setAdmin] = useState(2)
+  const [admin, setAdmin] = useState(1)
   const [controller, dispatch] = useSoftUIController();
   const { miniSidenav, direction, layout, openConfigurator, sidenavColor } = controller;
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // console.log(isAuth())
+    // if(!isAuth()){
+    //   return navigate("/authentication/sign-in")
+    // }
+    if(isAuth()?.role === "Admin"){
+      setAdmin(2);
+    }else{
+      setAdmin(1);
+    }
+  }, [isAuth()]);
 
   // Cache for the rtl
   useMemo(() => {
@@ -130,7 +144,7 @@ export default function App() {
             <Sidenav
               color={sidenavColor}
               brand={brand}
-              brandName="Soft UI Dashboard"
+              brandName="E-CARGO"
               routes={routes}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
@@ -158,7 +172,7 @@ export default function App() {
           <Sidenav
             color={sidenavColor}
             brand={brand}
-            brandName="Soft UI Dashboard"
+            brandName="E-CARGO"
             routes={routesAdmin}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
@@ -171,7 +185,7 @@ export default function App() {
           <Sidenav
             color={sidenavColor}
             brand={brand}
-            brandName="Soft UI Dashboard"
+            brandName="E-CARGO"
             routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}

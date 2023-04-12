@@ -18,7 +18,7 @@ import axios from "axios";
 import { cargostatus } from "url/url";
 import { Avatar } from "@mui/material";
 import SoftBadge from "components/SoftBadge";
-import MoreModal from "components/Modals/CargoRequiest/more";
+import ApproveModal from "components/Modals/ApproveCargo";
 
 function ApproveCargo() {
   const { columns: prCols, rows: prRows } = projectsTableData;
@@ -80,7 +80,7 @@ const loadProfile = async () => {
                               <tr className="border-b dark:border-neutral-500" key={index}>
                                 <td className="whitespace-nowrap px-6 py-4">
                                   <div className="flex items-center">
-                                    <Avatar /> 
+                                    <Avatar src={item.logo}/> 
                                     <div className="ml-2">
                                       <h1 className="font-semibold">{item.cargo_name}</h1>
                                       <p className="">{item.phone_number}</p>
@@ -97,7 +97,9 @@ const loadProfile = async () => {
                                   <SoftBadge variant="gradient" badgeContent="Баталгаажсан" color="success" size="xs" container/>
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 z-50">
-                                  <MoreModal id={item._id}/>
+                                  <div className="flex items-center">
+                                    <ApproveModal id={item._id}/>
+                                  </div>
                                 </td>
                               </tr>
                               )

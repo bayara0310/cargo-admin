@@ -20,39 +20,26 @@ import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
 import typography from "assets/theme/base/typography";
 
 // Dashboard layout components
-import BuildByDevelopers from "layouts/dashboard/components/BuildByDevelopers";
-import WorkWithTheRockets from "layouts/dashboard/components/WorkWithTheRockets";
-import Projects from "layouts/dashboard/components/Projects";
-import OrderOverview from "layouts/dashboard/components/OrderOverview";
+import Projects from "layouts/dashboardAdmin/components/Projects";
+import OrderOverview from "layouts/dashboardAdmin/components/OrderOverview";
 
 // Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
+import reportsBarChartData from "layouts/dashboardAdmin/data/reportsBarChartData";
+import gradientLineChartData from "layouts/dashboardAdmin/data/gradientLineChartData";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { cargostatus } from "url/url";
+import { useNavigate } from "react-router-dom";
+import { isAuth } from "context/AuthContext";
 
 function Dashboard() {
+  const navigate = useNavigate();
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
-  const [approve, setAprove] = useState()
-  const [requiested, setReq] = useState()
 
   useEffect(() => {
-    loadProfile();
-  }, []);
-
-  const loadProfile = async () => {
-    try{
-      const res = await axios.post(cargostatus, {cargo_status: "APPROVED"});
-      const ress = await axios.post(cargostatus, {cargo_status: "REQUIESTED"});
-      setAprove(res.data.data.length);
-      setReq(ress.data.data.length);
-
-    }catch(err){
-      console.log(err)
+    if(!isAuth()){
+      navigate("/authentication/sign-in")
     }
-  }
+  }, []);
 
   return (
     <DashboardLayout>
@@ -63,7 +50,7 @@ function Dashboard() {
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Бүх карго" }}
-                count={approve}
+                count="25"
                 percentage={{ color: "success", text: "+55%" }}
                 icon={{ color: "info", component: "paid" }}
               />
@@ -87,7 +74,7 @@ function Dashboard() {
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "Карго хүсэлтүүд" }}
-                count={requiested}
+                count="15"
                 percentage={{ color: "success", text: "+5%" }}
                 icon={{
                   color: "info",
