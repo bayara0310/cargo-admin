@@ -51,7 +51,7 @@ const routes = [
     noCollapse: true,
   },
   {
-    type: "collapse",
+    // type: "collapse",
     name: "Нэвтрэх хуудас",
     key: "sign-in",
     route: "/authentication/sign-in",
@@ -60,7 +60,6 @@ const routes = [
     noCollapse: true,
   },
   {
-    type: "collapse",
     name: "Нэвтрэх хуудас",
     key: "activate",
     path: "/authentication/activate/:id",

@@ -1,3 +1,4 @@
+import { reload } from 'firebase/auth';
 import cookie from 'js-cookie';
 
 // set in cookie
@@ -56,18 +57,19 @@ export const isAuth = () => {
     }
 };
 
-export const signout = next => {
-    removeCookie('token');
-    removeLocalStorage('user');
-    next();
+export const signout = () => {
+    console.log("test")
+    removeCookie('tokenA');
+    removeLocalStorage('userA');
+    // next();
 };
 
 export const updateUser = (response, next) => {
     console.log('UPDATE USER IN LOCALSTORAGE HELPERS', response);
     if (typeof window !== 'undefined') {
-        let auth = JSON.parse(localStorage.getItem('user'));
+        let auth = JSON.parse(localStorage.getItem('userA'));
         auth = response.data;
-        localStorage.setItem('user', JSON.stringify(auth));
+        localStorage.setItem('userA', JSON.stringify(auth));
     }
     next();
 };

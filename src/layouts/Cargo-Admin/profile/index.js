@@ -1,17 +1,3 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 
 
 // Soft UI Dashboard React examples
@@ -19,11 +5,22 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Footer from "examples/Footer";
 
 // Overview page components
-import Header from "layouts/profile/components/Header";
+import Header from "layouts/Cargo-Admin/profile/components/Header";
 import {TbEdit} from 'react-icons/tb'
 import {BiMessageDetail, BiPhone, BiUserPin} from 'react-icons/bi'
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { isAuth } from "context/AuthContext";
 
 function Overview() {
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if(!isAuth()){
+      navigate("/authentication/sign-in")
+    }
+  }, []);
+
   return (
     <DashboardLayout>
       <Header />
@@ -43,7 +40,7 @@ function Overview() {
                       <div className="flex items-center">
                         <BiUserPin/>
                         <h1 className="ml-4 text-xs">Нэр *</h1>
-                        <h1 className="text-base ml-4">Аригун ххк</h1>
+                        <h1 className="text-base ml-4">dssddsds ххк</h1>
                       </div>
                       <div className="flex items-center mt-2">
                         <BiMessageDetail/>
@@ -53,7 +50,7 @@ function Overview() {
                       <div className="flex items-center mt-2">
                         <BiPhone/>
                         <h1 className="ml-4 text-xs">Утасны дугаар *</h1>
-                        <h1 className="text-base ml-4">85208520</h1>
+                        <h1 className="text-base ml-4">852085s20</h1>
                       </div>
                   </div>
                 </div>

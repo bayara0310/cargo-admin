@@ -24,7 +24,7 @@ export default function MoreOrder(id) {
   const [iloading, setILoading] = useState(false)
   const toast = useToast();
   const [cargos, setCargos] = useState({});
-  const [data, setData] = useState({invoice:"", image:""});
+  const [data, setData] = useState({invoice:"", image:"", track: ""});
 
   useEffect(() => {
     loadProfile();
@@ -42,29 +42,9 @@ export default function MoreOrder(id) {
     const SubmitData = async () => {
       const invoice = data.invoice;
       const image = data.image;
+      const track = data.track
       setLoading(true);
       
-      if(cargos.status === BARAA.APPROVED){
-        try{
-          const res = await axios.post(orderImageUri + `${id.id}`, {invoice: invoice, image: image, status: BARAA.RECEIVED });
-          console.log(res.data, "resdata");
-          if(res.status === 200){
-            setLoading(false)
-            handleClose();
-            toast({
-              title: `Амжилттай баталгаажлаа`,
-              position: 'top',
-              isClosable: true,
-              status: 'success',
-              duration: 9000,
-            })
-          }
-          setLoading(false)
-      }catch(err){
-        setLoading(false)
-          console.log(err)
-      }
-      }
       if(cargos.status === BARAA.REGISTERED){
         try{
           const res = await axios.post(orderStatusUri + `${id.id}`, { status: BARAA.APPROVED });
@@ -81,11 +61,75 @@ export default function MoreOrder(id) {
             })
           }
           setLoading(false)
-      }catch(err){
-        setLoading(false)
-          console.log(err)
+        }catch(err){
+          setLoading(false)
+            console.log(err)
+        }
       }
+      if(cargos.status === BARAA.APPROVED){
+        try{
+          const res = await axios.post(orderImageUri + `${id.id}`, {invoice: invoice, image: image, status: BARAA.RECEIVED, track:track });
+          console.log(res.data, "resdata");
+          if(res.status === 200){
+            setLoading(false)
+            handleClose();
+            toast({
+              title: `Амжилттай баталгаажлаа`,
+              position: 'top',
+              isClosable: true,
+              status: 'success',
+              duration: 9000,
+            })
+          }
+          setLoading(false)
+        }catch(err){
+          setLoading(false)
+            console.log(err)
+        }
       }
+      if(cargos.status === BARAA.RECEIVED){
+        try{
+          const res = await axios.post(orderStatusUri + `${id.id}`, { status: BARAA.CAME });
+          console.log(res.data, "resdata");
+          if(res.status === 200){
+            setLoading(false)
+            handleClose();
+            toast({
+              title: `Амжилттай баталгаажлаа`,
+              position: 'top',
+              isClosable: true,
+              status: 'success',
+              duration: 9000,
+            })
+          }
+          setLoading(false)
+        }catch(err){
+          setLoading(false)
+            console.log(err)
+        }
+      }
+      if(cargos.status === BARAA.CAME){
+        try{
+          const res = await axios.post(orderStatusUri + `${id.id}`, { status: BARAA.CONFIRM });
+          console.log(res.data, "resdata");
+          if(res.status === 200){
+            setLoading(false)
+            handleClose();
+            toast({
+              title: `Амжилттай баталгаажлаа`,
+              position: 'top',
+              isClosable: true,
+              status: 'success',
+              duration: 9000,
+            })
+          }
+          setLoading(false)
+        }catch(err){
+          setLoading(false)
+            console.log(err)
+        }
+      }
+      // window.location.reload();
     }
 
     const logoImage = async (url) => {
@@ -204,6 +248,13 @@ export default function MoreOrder(id) {
              {
               cargos.status === BARAA.APPROVED&&
               <>
+               <div className='mt-4'>
+                <h1 className='text-sm font-semibold mb-2'>Трак код оруулах *</h1>
+                <input className='text-sm rounded ring-1 outline-none py-1 px-2' placeholder='Трак код оруулах'
+                onChange={e=>setData({...data, track:e.target.value})}
+                />
+              </div>
+
               <div className='mt-4'>
                 <h1 className='text-sm font-semibold mb-2'>Зураг оруулах *</h1>
                 <div className='flex items-center'>
@@ -235,12 +286,17 @@ export default function MoreOrder(id) {
         </DialogContent>
         <DialogActions className='mt-4'>
           <div className='text-sm mr-4 cursor-pointer hover:text-gray-500' onClick={handleClose}>Гарах</div>
-          <div className='text-sm mr-4 cursor-pointer bg-green-600 hover:bg-green-700 rounded py-2 px-4 text-white' onClick={SubmitData}>
+          {
+            cargos.status === BARAA.CONFIRM ?
+            ""
+            :
+            <div className='text-sm mr-4 cursor-pointer bg-green-600 hover:bg-green-700 rounded py-2 px-4 text-white' onClick={SubmitData}>
             {
               loading &&
               <Spinner className='mr-2'/>
             }
             Баталгаажуулах</div>
+          }
         </DialogActions>
       </Dialog>
     </div>

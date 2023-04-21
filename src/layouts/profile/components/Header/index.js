@@ -39,10 +39,15 @@ import breakpoints from "assets/theme/base/breakpoints";
 // Images
 import burceMars from "assets/images/bruce-mars.jpg";
 import curved0 from "assets/images/curved-images/images.jpg";
+import { signout } from "context/AuthContext";
 
 function Header() {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
+
+  function haha(){
+    signout();
+  }
 
   useEffect(() => {
     // A function that sets the orientation state of the tabs.
@@ -119,8 +124,8 @@ function Header() {
             </SoftBox>
           </Grid>
           <Grid item xs={12} md={6} lg={4} sx={{ ml: "auto" }}>
-            <div className="text-sm cursor-pointer flex items-center">
-              <h1 className="mr-4">Системээс гарах</h1>
+            <div className="text-sm cursor-pointer flex items-center" onClick={haha}>
+              <h1 className="mr-4" >Системээс гарах</h1>
               <RxExit/>
             </div>
           </Grid>

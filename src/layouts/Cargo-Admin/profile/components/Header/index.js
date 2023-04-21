@@ -1,17 +1,3 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 
 import { useState, useEffect } from "react";
 
@@ -39,10 +25,13 @@ import breakpoints from "assets/theme/base/breakpoints";
 // Images
 import burceMars from "assets/images/bruce-mars.jpg";
 import curved0 from "assets/images/curved-images/images.jpg";
+import { signout } from "context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // A function that sets the orientation state of the tabs.
@@ -51,20 +40,18 @@ function Header() {
         ? setTabsOrientation("vertical")
         : setTabsOrientation("horizontal");
     }
-
-    /** 
-     The event listener that's calling the handleTabsOrientation function when resizing the window.
-    */
     window.addEventListener("resize", handleTabsOrientation);
-
-    // Call the handleTabsOrientation function to set the state with the initial value.
     handleTabsOrientation();
-
-    // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleTabsOrientation);
   }, [tabsOrientation]);
 
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
+
+  function haha(){
+    navigate("/authentication/sign-in")
+    signout("A");
+  }
+
 
   return (
     <SoftBox position="relative">
@@ -119,7 +106,7 @@ function Header() {
             </SoftBox>
           </Grid>
           <Grid item xs={12} md={6} lg={4} sx={{ ml: "auto" }}>
-            <div className="text-sm cursor-pointer flex items-center">
+            <div className="text-sm cursor-pointer flex items-center" onClick={haha}>
               <h1 className="mr-4">Системээс гарах</h1>
               <RxExit/>
             </div>

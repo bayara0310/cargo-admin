@@ -9,10 +9,6 @@ import SoftTypography from "components/SoftTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-// import Table from "examples/Tables/Table";
-
-// Data
-import projectsTableData from "layouts/request/data/projectsTableData";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SoftBadge from "components/SoftBadge";
@@ -21,20 +17,20 @@ import { cargoOrdersUri } from "url/url";
 import { isAuth } from "context/AuthContext";
 import moment from "moment/moment";
 import { BARAA } from "url/types";
+import empty from "../../../assets/zurag/empty.png"
 
 function Orders() {
-  const { columns: prCols, rows: prRows } = projectsTableData;
-  console.log(prRows)
+  const [search, setSearch] = useState()
   const [cargos, setCargos] = useState([]);
   const [tab, setTab] = useState(1);
 
   useEffect(() => {
     loadProfile();
-  }, []);
+  }, [tab]);
 
 const loadProfile = async () => {
   try{
-    const res = await axios.get(cargoOrdersUri + isAuth()?.cargoid);
+    const res = await axios.post(cargoOrdersUri + isAuth()?.cargoid, {type: tab});
     setCargos(res.data.order);
   }catch(err){
     console.log(err)
@@ -139,15 +135,23 @@ const loadProfile = async () => {
                                 <td className="whitespace-nowrap px-6 py-4">
                                   {
                                     item?.status === BARAA.REGISTERED&&
-                                    <SoftBadge variant="gradient" badgeContent="хүлээгдэж буй" color="secondary" size="xs" container/>
+                                    <SoftBadge variant="gradient" badgeContent="Хүлээгдэж буй" color="secondary" size="xs" container/>
                                   }
                                   {
                                     item?.status === BARAA.APPROVED&&
-                                    <SoftBadge variant="gradient" badgeContent="баталгаажсан" color="secondary" size="xs" container/>
+                                    <SoftBadge variant="gradient" badgeContent="Баталгаажсан" color="light" size="xs" container/>
                                   }
                                   {
                                     item?.status === BARAA.RECEIVED&&
-                                    <SoftBadge variant="gradient" badgeContent="Хүлээж авсан" color="secondary" size="xs" container/>
+                                    <SoftBadge variant="gradient" badgeContent="Хүлээж авсан" color="warning" size="xs" container/>
+                                  }
+                                  {
+                                    item?.status === BARAA.CAME&&
+                                    <SoftBadge variant="gradient" badgeContent="Ирсэн" color="success" size="xs" container/>
+                                  }
+                                  {
+                                    item?.status === BARAA.CONFIRM&&
+                                    <SoftBadge variant="gradient" badgeContent="Хүлээлгэж өгсөн" color="primary" size="xs" container/>
                                   }
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 z-50">
@@ -159,6 +163,15 @@ const loadProfile = async () => {
                           }
                         </tbody>
                       </table>
+                      {
+                        cargos.length === 0 &&
+                        <div className="grid justify-center p-4">
+                          <div className="flex justify-center">
+                            <img src={empty}/>
+                          </div>
+                          <h1 className="text-sm mt-4">Таньд энэ түвшний бараа одоогоор байхгүй байна !</h1>
+                        </div>
+                      }
                     </div>
                   </div>
                 </div>

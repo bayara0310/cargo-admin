@@ -22,8 +22,19 @@ import Footer from "examples/Footer";
 import Header from "layouts/profile/components/Header";
 import {TbEdit} from 'react-icons/tb'
 import {BiMessageDetail, BiPhone, BiUserPin} from 'react-icons/bi'
+import { useEffect } from "react";
+import { isAuth } from "context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Overview() {
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if(!isAuth()){
+      navigate("/authentication/sign-in")
+    }
+  }, []);
+
   return (
     <DashboardLayout>
       <Header />

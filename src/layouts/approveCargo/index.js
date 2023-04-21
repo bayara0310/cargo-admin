@@ -19,13 +19,19 @@ import { cargostatus } from "url/url";
 import { Avatar } from "@mui/material";
 import SoftBadge from "components/SoftBadge";
 import ApproveModal from "components/Modals/ApproveCargo";
+import { isAuth } from "context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function ApproveCargo() {
   const { columns: prCols, rows: prRows } = projectsTableData;
   console.log(prRows)
   const [cargos, setCargos] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if(!isAuth()){
+      navigate("/authentication/sign-in")
+    }
     loadProfile();
   }, []);
 
