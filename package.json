@@ -4,17 +4,6 @@
   "author": "Creative Tim",
   "license": "SEE LICENSE IN <https://www.creative-tim.com/license>",
   "description": "ReactJS version of E-CARGO",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/soft-ui-dashboard-react/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/creativetimofficial/soft-ui-dashboard-react.git"
-  },
-  "engines": {
-    "node": "18.13.0",
-    "npm": ">=6"
-  },
   "dependencies": {
     "@chakra-ui/react": "^2.5.2",
     "@emotion/cache": "11.9.3",
