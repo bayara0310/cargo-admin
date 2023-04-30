@@ -18,9 +18,10 @@ import { isAuth } from "context/AuthContext";
 import moment from "moment/moment";
 import { BARAA } from "url/types";
 import empty from "../../../assets/zurag/empty.png"
+import { cargoOrdersUrisearch } from "url/url";
 
 function Orders() {
-  const [search, setSearch] = useState()
+  const [search, setSearch] = useState(null)
   const [cargos, setCargos] = useState([]);
   const [tab, setTab] = useState(1);
 
@@ -28,14 +29,23 @@ function Orders() {
     loadProfile();
   }, [tab]);
 
-const loadProfile = async () => {
-  try{
-    const res = await axios.post(cargoOrdersUri + isAuth()?.cargoid, {type: tab});
-    setCargos(res.data.order);
-  }catch(err){
-    console.log(err)
+  const loadProfile = async () => {
+    try{
+      const res = await axios.post(cargoOrdersUri, {id:isAuth()?.cargoid, type: tab});
+      setCargos(res.data.order);
+    }catch(err){
+      console.log(err)
+    }
   }
-}
+  const searchBar = async () => {
+    try{
+      const res = await axios.post(cargoOrdersUrisearch, {id:isAuth()?.cargoid, search: search});
+      setCargos(res.data.order);
+    }catch(err){
+      console.log(err)
+    }
+  }
+
 
   return (
     <>
@@ -61,40 +71,41 @@ const loadProfile = async () => {
               <div className="flex">
 
                 <div className={tab===1? "bg-blue-500 rounded px-4 py-1 text-sm text-white cursor-pointer hover:bg-blue-600":
-                 "bg-white rounded px-4 py-1 text-sm text-black cursor-pointer hover:text-white ring-1 hover:bg-blue-600"}
+                 "bg-white rounded px-4 py-1 text-sm text-black cursor-pointer hover:text-white hover:bg-blue-600"}
                  onClick={e=> setTab(1)}
                  >Бүгд</div>
                  
                 <div className={tab===2? "bg-blue-500 rounded px-4 py-1 text-sm text-white cursor-pointer hover:bg-blue-600 ml-2":
-                 "bg-white rounded px-4 py-1 text-sm text-black cursor-pointer hover:text-white ring-1 hover:bg-blue-600 ml-2"}
+                 "bg-white rounded px-4 py-1 text-sm text-black cursor-pointer hover:text-white hover:bg-blue-600 ml-2"}
                  onClick={e=> setTab(2)}
                  >Хүлээгдэж байгаа</div>
                  
                 <div className={tab===3? "bg-blue-500 rounded px-4 py-1 text-sm text-white cursor-pointer hover:bg-blue-600 ml-2":
-                 "bg-white rounded px-4 py-1 text-sm text-black cursor-pointer hover:text-white ring-1 hover:bg-blue-600 ml-2"}
+                 "bg-white rounded px-4 py-1 text-sm text-black cursor-pointer hover:text-white hover:bg-blue-600 ml-2"}
                  onClick={e=> setTab(3)}
                  >Баталгаажсан</div>
 
                 <div className={tab===4? "bg-blue-500 rounded px-4 py-1 text-sm text-white cursor-pointer hover:bg-blue-600 ml-2":
-                 "bg-white rounded px-4 py-1 text-sm text-black cursor-pointer hover:text-white ring-1 hover:bg-blue-600 ml-2"}
+                 "bg-white rounded px-4 py-1 text-sm text-black cursor-pointer hover:text-white hover:bg-blue-600 ml-2"}
                  onClick={e=> setTab(4)}
                  >Хүлээж авсан</div>
 
                  <div className={tab===5? "bg-blue-500 rounded px-4 py-1 text-sm text-white cursor-pointer hover:bg-blue-600 ml-2":
-                 "bg-white rounded px-4 py-1 text-sm text-black cursor-pointer hover:text-white ring-1 hover:bg-blue-600 ml-2"}
+                 "bg-white rounded px-4 py-1 text-sm text-black cursor-pointer hover:text-white hover:bg-blue-600 ml-2"}
                  onClick={e=> setTab(5)}
                  >Ирсэн</div>
 
                 <div className={tab===6? "bg-blue-500 rounded px-4 py-1 text-sm text-white cursor-pointer hover:bg-blue-600 ml-2":
-                 "bg-white rounded px-4 py-1 text-sm text-black cursor-pointer hover:text-white ring-1 hover:bg-blue-600 ml-2"}
+                 "bg-white rounded px-4 py-1 text-sm text-black cursor-pointer hover:text-white hover:bg-blue-600 ml-2"}
                  onClick={e=> setTab(6)}
                  >Хүлээлгэж өгсөн</div>
 
               </div>
             </div>
-            <div className="mx-6 my-2 mt-6 flex">
-              <input placeholder="Хайлт хийх" className="text-sm ring-1 rounded py-1 px-2 w-full outline-none focus:ring-2 hover:ring-blue-600"/>
-              <div className="text-sm bg-blue-500 rounded text-white mx-2 px-4 py-1 cursor-pointer hover:bg-blue-600">Хайх</div>
+            <div className="mx-6 my-2 mt-6 flex items-center">
+              <input onChange={ e=> setSearch(e.target.value)} value={search} placeholder="Хайлт хийх" className="text-sm ring-1 rounded py-1 px-2 w-full outline-none focus:ring-2 hover:ring-blue-600"/>
+              <h1 onClick={e=> setSearch("")} className="mx-2 text-sm cursor-pointer hover:opacity-50">x</h1>
+              <div onClick={searchBar} className="text-sm bg-blue-500 rounded text-white mx-2 px-4 py-1 cursor-pointer hover:bg-blue-600">Хайх</div>
             </div>
 
               <div className="flex flex-col">

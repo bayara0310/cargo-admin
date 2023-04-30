@@ -27,17 +27,27 @@ import gradientLineChartData from "layouts/Cargo-Admin/dashboard/data/gradientLi
 import { useEffect } from "react";
 import { isAuth } from "context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { Select } from 'antd';
 
 function Dashboard() {
   const navigate = useNavigate();
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
+  const options = [
+    {value: "aaa"},
+    {value: "ss"},
+    {value: "ff"}
+  ];
 
   useEffect(() => {
     if(!isAuth()){
       navigate("/authentication/sign-in")
     }
   }, []);
+
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
 
   return (
     <DashboardLayout>
@@ -118,14 +128,34 @@ function Dashboard() {
             </Grid>
           </Grid>
         </SoftBox>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={8}>
-            <Projects />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <OrderOverview />
-          </Grid>
-        </Grid>
+       <div className="grid grid-cols-2">
+
+        <div className="grid col-span-1">
+          <div className="bg-white shadow-lg rounded">
+            <div className="m-4">
+              <h1 className="text-lg ">Захиалга авдаг улсууд</h1>
+            </div>
+            <div className="m-4">
+              <Select
+                mode="tags"
+                style={{
+                  width: '100%',
+                }}
+                placeholder="Tags Mode"
+                onChange={handleChange}
+                options={options}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="grid col-span-1 mx-4">
+          <div className="bg-white shadow-lg rounded">
+            ss
+          </div>
+        </div>
+
+       </div>
       </SoftBox>
       <Footer />
     </DashboardLayout>

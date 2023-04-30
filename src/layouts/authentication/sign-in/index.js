@@ -37,7 +37,7 @@ function SignIn() {
     })
     .then(response=>{
       authenticate(response, () => {
-        isAuth() && isAuth().role == 'Admin' ? navigate('/dashboard') : alert("Админ биш байна.");
+        isAuth() && isAuth().role == 'Admin' || isAuth().role == 'Adminn' ? navigate('/dashboard') : alert("Админ биш байна.");
         setLoading(false)
       });
     })

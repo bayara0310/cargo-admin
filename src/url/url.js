@@ -8,7 +8,8 @@ export const adminadd = mainUrl + "/api/admin/add";
 export const adminactivationuri = mainUrl + "/api/admin/activate";
 
 export const adminFindOne = mainUrl + "/api/admin/activate";
-export const cargoOrdersUri = mainUrl + "/api/order/";
+export const cargoOrdersUri = mainUrl + "/api/order";
+export const cargoOrdersUrisearch = mainUrl + "/api/order/search";
 export const orderDetailUri = mainUrl + "/api/order/detail/";
 
 export const orderStatusUri = mainUrl + "/api/order/type/";
