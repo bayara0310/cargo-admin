@@ -96,7 +96,7 @@ function Header() {
         <Grid container spacing={3} alignItems="center">
           <Grid item>
             <SoftAvatar
-              src={burceMars}
+              src="https://ecargo.vercel.app/icons/logo.png"
               alt="profile-image"
               variant="rounded"
               size="xl"
@@ -106,10 +106,10 @@ function Header() {
           <Grid item>
             <SoftBox height="100%" mt={0.5} lineHeight={1}>
               <SoftTypography variant="h5" fontWeight="medium">
-                Аригун карго
+                Ерөнхий админ
               </SoftTypography>
               <SoftTypography variant="button" color="text" fontWeight="medium">
-                80666666
+                Ерөнхий админ
               </SoftTypography>
             </SoftBox>
           </Grid>

@@ -24,30 +24,50 @@ import OrderOverview from "layouts/Cargo-Admin/dashboard/components/OrderOvervie
 // Data
 import reportsBarChartData from "layouts/Cargo-Admin/dashboard/data/reportsBarChartData";
 import gradientLineChartData from "layouts/Cargo-Admin/dashboard/data/gradientLineChartData";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { isAuth } from "context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Select } from 'antd';
+import { Spin } from 'antd';
+import axios from "axios";
+import { cargoOrdersUri } from "url/url";
 
 function Dashboard() {
   const navigate = useNavigate();
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
-  const options = [
-    {value: "aaa"},
-    {value: "ss"},
-    {value: "ff"}
-  ];
+  const [loading, setLoading] = useState(false);
+
+  const [req, setReq] = useState();
+  const [app, setApp] = useState();
+  const [confirm, setConfirm] = useState();
+  const [came, setCame] = useState();
 
   useEffect(() => {
     if(!isAuth()){
       navigate("/authentication/sign-in")
     }
+    loadProfile();
   }, []);
 
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
+  const loadProfile = async () => {
+    setLoading(true);
+    try{
+      const req = await axios.post(cargoOrdersUri, {id:isAuth()?.cargoid, type: 2});
+      const app = await axios.post(cargoOrdersUri, {id:isAuth()?.cargoid, type: 3});
+      const confirm = await axios.post(cargoOrdersUri, {id:isAuth()?.cargoid, type: 4});
+      const came = await axios.post(cargoOrdersUri, {id:isAuth()?.cargoid, type: 5});
+
+      setReq(req.data.orders.length)
+      setApp(app.data.orders.length)
+      setConfirm(confirm.data.orders.length)
+      setCame(came.data.orders.length)
+      
+      setLoading(false);
+    }catch(err){
+      setLoading(false);
+      console.log(err)
+    }
+  }
 
   return (
     <DashboardLayout>
@@ -56,37 +76,37 @@ function Dashboard() {
         <SoftBox mb={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "Орлого" }}
-                count="$53,000"
-                percentage={{ color: "success", text: "+55%" }}
-                icon={{ color: "info", component: "paid" }}
-              />
+                <MiniStatisticsCard
+                  title={{ text: "Хүлээгдэж байгаа" }}
+                  count={req !== undefined && req !== null ? req : <Spin/>}
+                  percentage={{ color: "success", text: "Ширхэг" }}
+                  icon={{ color: "info", component: "paid" }}
+                />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "Шинэ хэрэглэгч" }}
-                count="2,300"
-                percentage={{ color: "success", text: "+3%" }}
+                title={{ text: "Баталгаажсан" }}
+                count={app !== undefined && app !== null ? app : <Spin/>}
+                percentage={{ color: "success", text: "Ширхэг" }}
                 icon={{ color: "info", component: "public" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "new clients" }}
-                count="+3,462"
-                percentage={{ color: "error", text: "-2%" }}
+                title={{ text: "Хүлээж авсан" }}
+                count={confirm !== undefined && confirm !== null ? confirm : <Spin/>}
+                percentage={{ color: "success", text: "Ширхэг" }}
                 icon={{ color: "info", component: "emoji_events" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "sales" }}
-                count="$103,430"
-                percentage={{ color: "success", text: "+5%" }}
+                title={{ text: "Ирсэн" }}
+                count={came !== undefined && came !== null ? came : <Spin/>}
+                percentage={{ color: "success", text: "Ширхэг" }}
                 icon={{
                   color: "info",
-                  component: "shopping_cart",
+                  component: "shopping_cart", 
                 }}
               />
             </Grid>
@@ -96,10 +116,10 @@ function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12} lg={5}>
               <ReportsBarChart
-                title="active users"
+                title="Орлогын статистик"
                 description={
                   <>
-                    (<strong>+23%</strong>) Сүүлийн 7 хоногт
+                    (<strong>+23%</strong>) Орлого
                   </>
                 }
                 chart={chart}
@@ -108,16 +128,16 @@ function Dashboard() {
             </Grid>
             <Grid item xs={12} lg={7}>
               <GradientLineChart
-                title="Sales Overview"
+                title="Нийт захиалгууд"
                 description={
                   <SoftBox display="flex" alignItems="center">
                     <SoftBox fontSize={size.lg} color="success" mb={0.3} mr={0.5} lineHeight={0}>
                       <Icon className="font-bold">arrow_upward</Icon>
                     </SoftBox>
                     <SoftTypography variant="button" color="text" fontWeight="medium">
-                      4% more{" "}
+                      Сүүлийн 2 жилийн{" "}
                       <SoftTypography variant="button" color="text" fontWeight="regular">
-                        in 2021
+                      захиалгуудын статистик
                       </SoftTypography>
                     </SoftTypography>
                   </SoftBox>
@@ -128,34 +148,6 @@ function Dashboard() {
             </Grid>
           </Grid>
         </SoftBox>
-       <div className="grid grid-cols-2">
-
-        <div className="grid col-span-1">
-          <div className="bg-white shadow-lg rounded">
-            <div className="m-4">
-              <h1 className="text-lg ">Захиалга авдаг улсууд</h1>
-            </div>
-            <div className="m-4">
-              <Select
-                mode="tags"
-                style={{
-                  width: '100%',
-                }}
-                placeholder="Tags Mode"
-                onChange={handleChange}
-                options={options}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="grid col-span-1 mx-4">
-          <div className="bg-white shadow-lg rounded">
-            ss
-          </div>
-        </div>
-
-       </div>
       </SoftBox>
       <Footer />
     </DashboardLayout>

@@ -28,12 +28,14 @@ import curved0 from "assets/images/curved-images/images.jpg";
 import { signout } from "context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-function Header() {
+function Header(data) {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const navigate = useNavigate();
+  const [datas, setDatas] = useState()
 
   useEffect(() => {
+    setDatas(data.data)
     // A function that sets the orientation state of the tabs.
     function handleTabsOrientation() {
       return window.innerWidth < breakpoints.values.sm
@@ -43,7 +45,7 @@ function Header() {
     window.addEventListener("resize", handleTabsOrientation);
     handleTabsOrientation();
     return () => window.removeEventListener("resize", handleTabsOrientation);
-  }, [tabsOrientation]);
+  }, [tabsOrientation, data]);
 
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
 
@@ -67,7 +69,7 @@ function Header() {
             `${linearGradient(
               rgba(gradients.info.main, 0.6),
               rgba(gradients.info.state, 0.6)
-            )}, url(${curved0})`,
+            )}, url(${datas?.cover_image})`,
           backgroundSize: "cover",
           backgroundPosition: "50%",
           overflow: "hidden",
@@ -88,7 +90,7 @@ function Header() {
         <Grid container spacing={3} alignItems="center">
           <Grid item>
             <SoftAvatar
-              src={burceMars}
+              src={datas?.logo}
               alt="profile-image"
               variant="rounded"
               size="xl"
@@ -98,10 +100,10 @@ function Header() {
           <Grid item>
             <SoftBox height="100%" mt={0.5} lineHeight={1}>
               <SoftTypography variant="h5" fontWeight="medium">
-                Аригун карго
+                {datas?.cargo_name}
               </SoftTypography>
               <SoftTypography variant="button" color="text" fontWeight="medium">
-                80666666
+              {datas?.phone_number}
               </SoftTypography>
             </SoftBox>
           </Grid>

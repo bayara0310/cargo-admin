@@ -19,28 +19,33 @@ import moment from "moment/moment";
 import { BARAA } from "url/types";
 import empty from "../../../assets/zurag/empty.png"
 import { cargoOrdersUrisearch } from "url/url";
+import { Spin } from "antd";
 
 function Orders() {
-  const [search, setSearch] = useState(null)
+  const [search, setSearch] = useState()
   const [cargos, setCargos] = useState([]);
   const [tab, setTab] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     loadProfile();
   }, [tab]);
 
   const loadProfile = async () => {
     try{
       const res = await axios.post(cargoOrdersUri, {id:isAuth()?.cargoid, type: tab});
-      setCargos(res.data.order);
+      setCargos(res.data.orders);
+      setLoading(false);
     }catch(err){
+      setLoading(false);
       console.log(err)
     }
   }
   const searchBar = async () => {
     try{
       const res = await axios.post(cargoOrdersUrisearch, {id:isAuth()?.cargoid, search: search});
-      setCargos(res.data.order);
+      setCargos(res.data.orders);
     }catch(err){
       console.log(err)
     }
@@ -115,66 +120,84 @@ function Orders() {
                       <table className="min-w-full text-left text-sm font-light">
                         <thead className="border-b font-medium dark:border-neutral-500 text-gray-500">
                           <tr>
-                            <th scope="col" className="px-6 py-4">Захиалгын төрөл</th>
-                            <th scope="col" className="px-6 py-4">Линк</th>
-                            <th scope="col" className="px-6 py-4">Нэгж үнэ</th>
+                            <th scope="col" className="px-6 py-4">Захиалгын дугаар</th>
+                            <th scope="col" className="px-6 py-4">Хэрэглэгчийн нэр</th>
+                            <th scope="col" className="px-6 py-4">И-мейл хаяг</th>
                             <th scope="col" className="px-6 py-4">Тоо ширхэг</th>
                             <th scope="col" className="px-6 py-4">Огноо</th>
                             <th scope="col" className="px-6 py-4"></th>
                           </tr>
                         </thead>
-                        <tbody>
+                        {
+                          loading?
+                          <label className="flex items-center justify-center">
+                            <Spin className="mr-4"/>
+                            Уншиж байна ... 
+                          </label>
+                          :
+                          <tbody>
                           {
                             cargos.map((item, index) => {
                               return(
                               <tr className="border-b dark:border-neutral-500" key={index}>
                                 <td className="whitespace-nowrap px-6 py-4">
-                                  <h1 className="font-semibold">{item.type}</h1>
+                                  {
+                                    item.order.trackCode?
+                                    <label className="font-semibold">{item.order?.trackCode}</label>
+                                    :
+                                    <label className="text-xs">Дугаар үүсээгүй байна</label>
+                                  }
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 text-sm">
-                                  <h1>{item.link}</h1>
+                                  <label>{item?.user?.name}</label>
                                 </td>
                                 <td className=" px-6 py-4 text-sm" >
-                                  <h1 className="whitespace-normal">{item.price}</h1>
+                                  <label className="whitespace-normal">{item?.user?.email}</label>
                                 </td>
                                 <td className=" px-6 py-4 text-sm" >
-                                  <h1 className="whitespace-normal">{item.number}</h1>
+                                  <label className="whitespace-normal">{item?.order?.number}</label>
                                 </td>
                                 <td className=" px-6 py-4 text-sm" >
-                                  <h1 className="whitespace-normal">{moment(item.date).format('l')}</h1>
+                                  <label className="whitespace-normal">{moment(item?.order?.date).format('l')}</label>
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4">
                                   {
-                                    item?.status === BARAA.REGISTERED&&
+                                    item?.order.status === BARAA.REGISTERED&&
                                     <SoftBadge variant="gradient" badgeContent="Хүлээгдэж буй" color="secondary" size="xs" container/>
                                   }
                                   {
-                                    item?.status === BARAA.APPROVED&&
+                                    item?.order.status === BARAA.APPROVED&&
                                     <SoftBadge variant="gradient" badgeContent="Баталгаажсан" color="light" size="xs" container/>
                                   }
                                   {
-                                    item?.status === BARAA.RECEIVED&&
+                                    item?.order.status === BARAA.RECEIVED&&
                                     <SoftBadge variant="gradient" badgeContent="Хүлээж авсан" color="warning" size="xs" container/>
                                   }
                                   {
-                                    item?.status === BARAA.CAME&&
+                                    item?.order.status === BARAA.CAME&&
                                     <SoftBadge variant="gradient" badgeContent="Ирсэн" color="success" size="xs" container/>
                                   }
                                   {
-                                    item?.status === BARAA.CONFIRM&&
+                                    item?.order.status === BARAA.CONFIRM&&
                                     <SoftBadge variant="gradient" badgeContent="Хүлээлгэж өгсөн" color="primary" size="xs" container/>
                                   }
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 z-50">
-                                  <MoreOrder id={item._id}/>
+                                  <MoreOrder id={item?.order?._id}/>
                                 </td>
                               </tr>
                               )
                             })
                           }
                         </tbody>
+                        }
                       </table>
                       {
+                        loading?
+                        ""
+                        :
+                        <>
+                        {
                         cargos.length === 0 &&
                         <div className="grid justify-center p-4">
                           <div className="flex justify-center">
@@ -182,6 +205,8 @@ function Orders() {
                           </div>
                           <h1 className="text-sm mt-4">Таньд энэ түвшний бараа одоогоор байхгүй байна !</h1>
                         </div>
+                        }
+                        </>
                       }
                     </div>
                   </div>

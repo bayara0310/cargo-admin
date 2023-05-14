@@ -28,7 +28,7 @@ export default function MoreOrder(id) {
 
   useEffect(() => {
     loadProfile();
-  }, []);
+  }, [id]);
 
     const loadProfile = async () => {
         try{
@@ -88,6 +88,7 @@ export default function MoreOrder(id) {
         }
       }
       if(cargos.status === BARAA.RECEIVED){
+        console.log("a")
         try{
           const res = await axios.post(orderStatusUri + `${id.id}`, { status: BARAA.CAME });
           console.log(res.data, "resdata");
@@ -186,7 +187,7 @@ export default function MoreOrder(id) {
       <Dialog
         className='mb-60'
         maxWidth="md"
-        fullWidth="400px"
+        fullWidth={true}
         open={open}
         keepMounted
         onClose={handleClose}
